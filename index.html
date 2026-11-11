@@ -1,141 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Model Watch — Live AI/LLM Dashboard</title>
-  <meta name="description"
-    content="Browse daily-updated prices, context windows, capabilities and deprecation dates for AI and LLM models from top providers." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-
-  <!-- ===== HERO HEADER ===== -->
-  <header class="header">
-    <div class="container header__inner">
-      <div class="header__brand">
-        <span class="header__icon">🤖</span>
-        <div>
-          <h1 class="header__title">AI Model Watch</h1>
-          <p class="header__sub">Live prices · Context windows · Deprecation dates</p>
-        </div>
-      </div>
-      <div class="header__count" id="modelCount">
-        <span class="header__num" id="totalModels">—</span>
-        <span class="header__label">models tracked</span>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <!-- ===== SEARCH & FILTER FORM ===== -->
-    <section class="section">
-      <form id="searchForm" class="form" role="search" aria-label="Filter models">
-
-        <!-- Keyword search -->
-        <div class="form__group form__group--wide">
-          <label for="keyword" class="form__label">🔍 Search models</label>
-          <input type="search" id="keyword" name="keyword" class="form__input"
-            placeholder="e.g. gpt, claude, gemini, llama…" autocomplete="off" />
-        </div>
-
-        <!-- Provider filter -->
-        <div class="form__group">
-          <label for="providerFilter" class="form__label">🏢 Provider</label>
-          <select id="providerFilter" name="provider" class="form__select">
-            <option value="">All providers</option>
-          </select>
-        </div>
-
-        <!-- Status filter -->
-        <div class="form__group">
-          <label for="statusFilter" class="form__label">📌 Status</label>
-          <select id="statusFilter" name="status" class="form__select">
-            <option value="">All statuses</option>
-            <option value="active">Active</option>
-            <option value="deprecated">Deprecated</option>
-            <option value="beta">Beta</option>
-          </select>
-        </div>
-
-        <!-- Capability filter -->
-        <div class="form__group">
-          <label for="capFilter" class="form__label">✨ Capability</label>
-          <select id="capFilter" name="capability" class="form__select">
-            <option value="">Any capability</option>
-            <option value="reasoning">Reasoning</option>
-            <option value="tool_call">Tool calling</option>
-            <option value="attachment">Attachments/Vision</option>
-            <option value="open_weights">Open weights</option>
-          </select>
-        </div>
-
-        <!-- Sort -->
-        <div class="form__group">
-          <label for="sortBy" class="form__label">↕️ Sort by</label>
-          <select id="sortBy" name="sort" class="form__select">
-            <option value="name">Name A–Z</option>
-            <option value="context_desc">Context window ↓</option>
-            <option value="cost_asc">Input price ↑</option>
-            <option value="cost_desc">Input price ↓</option>
-            <option value="release_desc">Newest first</option>
-          </select>
-        </div>
-
-        <!-- Buttons -->
-        <div class="form__group form__group--actions">
-          <button type="submit" class="btn btn--primary" id="applyBtn">Apply</button>
-          <button type="button" class="btn btn--ghost" id="resetBtn">Reset</button>
-        </div>
-
-      </form>
-    </section>
-
-    <!-- ===== STATS BAR ===== -->
-    <div class="stats" id="statsBar">
-      <span class="badge" id="statShowing">Showing — models</span>
-      <span class="badge badge--green" id="statActive">— active</span>
-      <span class="badge badge--red" id="statDeprecated">— deprecated</span>
-      <span class="badge badge--blue" id="statFree">— free / $0</span>
-    </div>
-
-    <!-- ===== LOADING SPINNER ===== -->
-    <div class="loader" id="loader">
-      <div class="loader__spinner"></div>
-      <p class="loader__text">Fetching live model data…</p>
-    </div>
-
-    <!-- ===== ERROR STATE ===== -->
-    <div class="error hidden" id="errorBox">
-      <p class="error__icon">⚠️</p>
-      <p class="error__msg" id="errorMsg">Could not load data. Please check your connection and try again.</p>
-      <button class="btn btn--primary" id="retryBtn">Retry</button>
-    </div>
-
-    <!-- ===== MODEL GRID ===== -->
-    <section class="section">
-      <div class="grid" id="modelGrid" aria-live="polite"></div>
-      <div class="empty hidden" id="noResults">
-        <span>🔭</span>
-        <p>No models match your filters. Try adjusting your search.</p>
-      </div>
-    </section>
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    <p>Data sourced from <a href="https://models.dev" target="_blank" rel="noopener">models.dev</a> &amp; <a
-        href="https://artificialwatch.com" target="_blank" rel="noopener">ArtificialWatch</a> · Updated daily · No API
-      key required</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Model Watch — Live AI/LLM Dashboard</title>
+    <meta
+      name="description"
+      content="Browse daily-updated prices, context windows, capabilities and deprecation dates for AI and LLM models from top providers."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
