@@ -34,7 +34,7 @@ The existing project is a client-side vanilla JavaScript, HTML5, and CSS3 single
 ---
 
 ## 3. UI Component Breakdown
-The application will be broken down into clean, reusable React components:
+The application has been broken down into clean, reusable React components:
 
 - `src/components/Header.jsx`: Sticky glassmorphic navbar with logo, title, subtitle, and total count indicator.
 - `src/components/FilterForm.jsx`: Search input, provider select, status select, capability select, sort select, Apply & Reset buttons.
@@ -98,24 +98,25 @@ The application will be broken down into clean, reusable React components:
 ---
 
 ## 7. Migration Risks & Mitigation
-- **Direct DOM Manipulation**: Vanilla code directly mutated `.innerHTML`, `.textContent`, and `.classList`. -> Mitigated by declarative React state, props, and conditional JSX rendering.
-- **Form Reset**: In vanilla JS, `form.reset()` restored initial HTML values. -> Mitigated by controlled React form state with an explicit reset function.
+- **Direct DOM Manipulation**: Vanilla code directly mutated `.innerHTML`, `.textContent`, and `.classList`. -> Resolved by declarative React state, props, and conditional JSX rendering.
+- **Form Reset**: In vanilla JS, `form.reset()` restored initial HTML values. -> Resolved by controlled React form state with an explicit reset function.
 - **Animation Delays**: Vanilla code computed `style="animation-delay:${Math.min(index * 25, 400)}ms"`. -> Preserved in JSX via inline `style={{ animationDelay: `${Math.min(index * 25, 400)}ms` }}`.
-- **CSS Selectors & Structure**: The existing styles use BEM naming conventions (`.header__inner`, `.card__header`, `.btn--primary`). Moving CSS into `src/styles/` while preserving class names ensures zero visual regression.
+- **CSS Selectors & Structure**: The existing styles use BEM naming conventions (`.header__inner`, `.card__header`, `.btn--primary`). Moved CSS into `src/styles/style.css` while preserving all class names and animations to guarantee zero visual regression.
 
 ---
 
 ## 8. Status & Verification Matrix
-| Original Item | React Component / Module | Verified |
-| :--- | :--- | :--- |
-| `index.html` (Hero Header) | `src/components/Header.jsx` | Pending |
-| `index.html` (Search/Filter Form) | `src/components/FilterForm.jsx` | Pending |
-| `index.html` (Stats Bar) | `src/components/StatsBar.jsx` | Pending |
-| `index.html` (Loader) | `src/components/LoadingSpinner.jsx` | Pending |
-| `index.html` (Error Box) | `src/components/ErrorBox.jsx` | Pending |
-| `index.html` (Grid & Empty State) | `src/components/ModelGrid.jsx` | Pending |
-| `script.js` (Model Class & Card HTML) | `src/components/ModelCard.jsx` | Pending |
-| `index.html` (Footer) | `src/components/Footer.jsx` | Pending |
-| `script.js` (fetchData / API) | `src/services/api.js` | Pending |
-| `script.js` (formatting helpers) | `src/utils/formatters.js` | Pending |
-| `style.css` | `src/styles/style.css` | Pending |
+| Original Item | React Component / Module | Verified | Notes / Tests |
+| :--- | :--- | :--- | :--- |
+| `index.html` (Hero Header) | `src/components/Header.jsx` | ✅ Yes | Verified via unit test & App integration |
+| `index.html` (Search/Filter Form) | `src/components/FilterForm.jsx` | ✅ Yes | Verified live typing, select changes, reset |
+| `index.html` (Stats Bar) | `src/components/StatsBar.jsx` | ✅ Yes | Verified showing, active, deprecated, free counts |
+| `index.html` (Loader) | `src/components/LoadingSpinner.jsx` | ✅ Yes | Verified spinner & pulse animation |
+| `index.html` (Error Box) | `src/components/ErrorBox.jsx` | ✅ Yes | Verified error message & retry callback |
+| `index.html` (Grid & Empty State) | `src/components/ModelGrid.jsx` | ✅ Yes | Verified card rendering and empty state fallback |
+| `script.js` (Model Class & Card HTML) | `src/components/ModelCard.jsx` | ✅ Yes | Verified badges, stats, capability pills, delays |
+| `index.html` (Footer) | `src/components/Footer.jsx` | ✅ Yes | Verified copy, attribution links, target blank |
+| `script.js` (fetchData / API) | `src/services/api.js` | ✅ Yes | Verified endpoint, 100 slice, error handling |
+| `script.js` (formatting helpers) | `src/utils/formatters.js` | ✅ Yes | 13 unit tests covering all formatting edge cases |
+| `style.css` | `src/styles/style.css` | ✅ Yes | Git history preserved via `git mv`, all classes intact |
+| Full Application Flow | `src/App.jsx` | ✅ Yes | 6 integration tests covering filter, sort, reset, retry |

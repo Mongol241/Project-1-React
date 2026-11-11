@@ -1,6 +1,16 @@
-# 🤖 AI Model Watch — Dashboard
+# 🤖 AI Model Watch — Dashboard (React + Vite)
 
-A lightweight, fully client-side web app that fetches **live AI/LLM model data** — prices, context windows, capabilities, and deprecation status — straight from the [models.dev](https://models.dev) public API (the data source powering **ArtificialWatch / AI Model Watch**).
+A modern, responsive web application built with **React** and **Vite** that fetches **live AI/LLM model data** — prices, context windows, capabilities, and deprecation status — straight from the [models.dev](https://models.dev) public API.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: [React 19](https://react.dev/)
+- **Bundler / Build Tool**: [Vite 6](https://vitejs.dev/)
+- **Testing**: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- **Linting**: [ESLint 9](https://eslint.org/) (Flat Config with React rules)
+- **Styling**: Pure CSS3 with glassmorphic dark theme and responsive flex/grid layouts
 
 ---
 
@@ -8,23 +18,114 @@ A lightweight, fully client-side web app that fetches **live AI/LLM model data**
 
 ```
 Proiect-1/
-├── index.html   – Page markup, search form, model grid layout
-├── style.css    – Dark glassmorphism design, responsive grid
-├── script.js    – API fetch, filter/sort logic, card rendering
-└── README.md    – This file
+├── docs/
+│   └── MIGRATION_PLAN.md   – Migration plan & verification matrix
+├── public/
+│   └── favicon.svg         – Application robot favicon
+├── src/
+│   ├── assets/             – Static assets
+│   ├── components/         – Modular React components
+│   │   ├── ErrorBox.jsx       – Error view with retry action
+│   │   ├── FilterForm.jsx     – Search input, provider/status/cap selects, apply & reset
+│   │   ├── Footer.jsx         – Data source attribution footer
+│   │   ├── Header.jsx         – Sticky glassmorphic navbar with total count
+│   │   ├── LoadingSpinner.jsx – Animated spinner and pulse indicator
+│   │   ├── ModelCard.jsx      – Responsive model card with stats & capability badges
+│   │   ├── ModelGrid.jsx      – Grid container and empty state view
+│   │   └── StatsBar.jsx       – Active, deprecated, free, and total count badges
+│   ├── services/
+│   │   └── api.js          – Fetch, transform and slice API data
+│   ├── styles/
+│   │   └── style.css       – Preserved CSS design system & media queries
+│   ├── test/
+│   │   ├── setup.js           – Test setup with jest-dom
+│   │   ├── formatters.test.js – Unit tests for utility functions
+│   │   ├── components.test.jsx– Unit tests for isolated UI components
+│   │   └── App.test.jsx       – Integration tests for filtering, reset, error handling
+│   ├── utils/
+│   │   └── formatters.js   – Price, token, date formatters & filter matching
+│   ├── App.jsx             – Main application state and data orchestration
+│   └── main.jsx            – React entry point (StrictMode & DOM mount)
+├── .env.example            – Environment variable template
+├── .gitignore              – Git ignore rules (node_modules, dist, .env)
+├── eslint.config.js        – ESLint 9 configuration
+├── index.html              – HTML shell and entry point for Vite
+├── package.json            – Dependencies, scripts, and project metadata
+├── vite.config.js          – Vite configuration with relative base and Vitest setup
+└── README.md               – This documentation file
 ```
 
 ---
 
-## 🚀 How to Run
+## 🚀 Getting Started
 
-### Option A — Open directly in the browser (simplest)
+### Prerequisites
 
-**If you use VS Code**, install the **Live Server** extension, right-click `index.html` → *Open with Live Server*.
+- [Node.js](https://nodejs.org/) (v18 or newer recommended, tested on v24)
+- `npm` (comes with Node.js)
+
+### Installation
+
+```bash
+# Clone the repository and switch to the project directory
+git clone https://github.com/Mongol241/Proiect-1.git
+cd Proiect-1
+
+# Install dependencies
+npm install
+```
+
+### Running Locally (Development Mode)
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+The production assets will be output to the `dist/` directory.
+
+### Previewing the Production Build
+
+```bash
+npm run preview
+```
+
+### Running Tests and Linting
+
+```bash
+# Run unit and integration tests (Vitest)
+npm run test
+
+# Run code style and lint checks (ESLint)
+npm run lint
+```
 
 ---
 
-## 🔌 API Used
+## ⚙️ Environment Variables
+
+The application can be configured using environment variables. Create a `.env` file in the project root:
+
+```bash
+cp .env.example .env
+```
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `VITE_API_URL` | API endpoint for live models data | `https://models.dev/api.json` |
+
+> **Note**: `.env` is ignored by git to protect credentials. Never commit API keys or private endpoints.
+
+---
+
+## 🔌 API Details
 
 | Property      | Value |
 |---------------|-------|
@@ -32,66 +133,31 @@ Proiect-1/
 | **Auth**      | None (fully public) |
 | **CORS**      | ✅ Enabled |
 | **Updates**   | Daily |
-| **Models**    | 190+ AI/LLM models across all major providers |
+| **Models**    | 190+ AI/LLM models across all major providers (first 100 displayed) |
 | **Data**      | Prices · Context windows · Capabilities · Deprecation dates |
 
-The API returns a JSON object keyed by **provider ID**.  
-Each provider contains a `models` map with fields such as:
+---
 
-```jsonc
-{
-  "openai": {
-    "name": "OpenAI",
-    "models": {
-      "gpt-4o": {
-        "name": "GPT-4o",
-        "status": "active",         // active | deprecated | beta
-        "limit": {
-          "context": 128000,        // tokens
-          "output":  16384
-        },
-        "cost": {
-          "input":  2.50,           // USD per 1M tokens
-          "output": 10.00
-        },
-        "reasoning":    false,
-        "tool_call":    true,
-        "attachment":   true,       // vision / file uploads
-        "open_weights": false,
-        "release_date": "2024-05-13"
-      }
-    }
-  }
-}
-```
+## 🔄 Migrare HTML/CSS/JS -> React
+
+The project was migrated from plain HTML5, CSS3, and vanilla JavaScript into a modern React application:
+
+1. **Architecture & State Management**:
+   - Replaced imperative DOM updates (`document.getElementById`, `.innerHTML`, `.classList`) with declarative React components and state (`useState`, `useMemo`, `useCallback`).
+   - Dynamic provider list and filtering/sorting are computed efficiently using memoized selectors.
+2. **Componentization**:
+   - Extracted logical UI blocks into isolated components (`Header`, `FilterForm`, `StatsBar`, `ModelGrid`, `ModelCard`, `LoadingSpinner`, `ErrorBox`, `Footer`).
+3. **Style Preservation**:
+   - Preserved 100% of the original CSS classes, design tokens, responsive breakpoints (900px, 600px), and animations (`cardIn`, `float`, `spin`, `pulse`). Moved CSS to `src/styles/style.css` with git history tracked.
+4. **Resilience & Testing**:
+   - Added automated tests with Vitest and React Testing Library covering token formatting, price calculations, filtering criteria, form reset, error recovery, and component rendering.
+5. **Tooling & Build System**:
+   - Set up Vite for instant HMR and optimized builds, plus ESLint 9 for code quality.
 
 ---
 
-## ✨ Features
+## 🌐 Deployment Notes
 
-- **Live data** — fetched fresh on every page load from the official API
-- **Search** — keyword search across model name, ID, provider, and description
-- **Filter** — by provider, status (active / deprecated / beta), and capability
-- **Sort** — by name, context window size, input price, or release date
-- **Stats bar** — at-a-glance counts for visible, active, deprecated, and free models
-- **Responsive** — works on desktop, tablet, and mobile
-- **No dependencies** — plain HTML5, CSS3, and vanilla JavaScript
-
----
-
-## 🛠️ Customisation Tips
-
-| Goal | Where to look |
-|------|---------------|
-| Change colour scheme | CSS variables at the top of `style.css` (`:root { … }`) |
-| Add more filter options | `index.html` form + `renderFiltered()` in `script.js` |
-| Switch to a different endpoint | Change `API_URL` constant in `script.js` |
-| Add pagination | Split the `filtered` array in `renderGrid()` |
-
----
-
-## 📝 Notes
-
-- The project has **no build step** and **no npm packages** — everything runs natively in modern browsers.
-- All data is read-only; the app never sends any data back to the API.
-- Data freshness depends on the upstream `models.dev` API (updated daily by the maintainers).
+The Vite configuration uses `base: './'`, enabling deployment to:
+- **GitHub Pages**: You can deploy the `dist/` folder via GitHub Actions or the `gh-pages` branch.
+- **Vercel / Netlify / Cloudflare Pages**: Connect the repository with build command `npm run build` and publish directory `dist`.
